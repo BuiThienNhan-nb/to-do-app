@@ -9,6 +9,7 @@ class Note extends Equatable {
   final String userId;
   String title;
   String description;
+  String priority;
   DateTime? deadline;
   bool hasDone = false;
   DateTime? createdAt;
@@ -17,6 +18,7 @@ class Note extends Equatable {
     required this.userId,
     required this.title,
     required this.description,
+    required this.priority,
     this.deadline,
     required this.hasDone,
     this.createdAt,
@@ -27,6 +29,7 @@ class Note extends Equatable {
     String? userId,
     String? title,
     String? description,
+    String? priority,
     DateTime? deadline,
     bool? hasDone,
     DateTime? createdAt,
@@ -36,6 +39,7 @@ class Note extends Equatable {
       userId: userId ?? this.userId,
       title: title ?? this.title,
       description: description ?? this.description,
+      priority: priority ?? this.priority,
       deadline: deadline ?? this.deadline,
       hasDone: hasDone ?? this.hasDone,
       createdAt: createdAt ?? this.createdAt,
@@ -48,9 +52,10 @@ class Note extends Equatable {
       'userId': userId,
       'title': title,
       'description': description,
-      'deadline': deadline?.millisecondsSinceEpoch,
+      'priority': priority,
+      'deadline': deadline?.toIso8601String(),
       'hasDone': hasDone,
-      'createdAt': createdAt?.millisecondsSinceEpoch,
+      'createdAt': createdAt?.toIso8601String(),
     };
   }
 
@@ -60,13 +65,14 @@ class Note extends Equatable {
       userId: (map['userId'] ?? '') as String,
       title: (map['title'] ?? '') as String,
       description: (map['description'] ?? '') as String,
+      priority: (map['priority'] ?? '') as String,
       deadline: map['deadline'] != null
-          ? DateTime.fromMillisecondsSinceEpoch((map['deadline'] ?? 0) as int)
+          // ? DateTime.fromMillisecondsSinceEpoch((map['deadline'] ?? 0) as int)
+          ? DateTime.parse(map['deadline'])
           : null,
       hasDone: (map['hasDone'] ?? false) as bool,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch((map['createdAt'] ?? 0) as int)
-          : null,
+      createdAt:
+          map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,
     );
   }
 
@@ -85,9 +91,10 @@ class Note extends Equatable {
       userId,
       title,
       description,
+      priority,
       deadline ?? DateTime.now().add(const Duration(days: -1)),
       hasDone,
-      createdAt ?? DateTime.now(),
+      createdAt ?? DateTime.now().add(const Duration(days: 1)),
     ];
   }
 }

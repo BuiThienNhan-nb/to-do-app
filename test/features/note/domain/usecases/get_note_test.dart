@@ -26,6 +26,7 @@ void main() {
       userId: userId,
       title: 'title',
       description: 'description',
+      priority: 'Must Do',
       deadline: null,
       hasDone: false,
     );
