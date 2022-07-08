@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:to_do_app/core/platform/network_status.dart';
-import 'package:to_do_app/features/note/data/datasources/note_remote_data_source.dart';
+import '../../../../core/platform/network_status.dart';
+import '../datasources/note_remote_data_source.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/note.dart';

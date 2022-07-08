@@ -23,6 +23,5 @@ class Params extends Equatable {
   const Params({required this.userId}) : super();
 
   @override
-  // TODO: implement props
   List<Object?> get props => [userId];
 }
