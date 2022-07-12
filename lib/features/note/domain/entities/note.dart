@@ -48,7 +48,7 @@ class Note extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      '_id': id,
       'userId': userId,
       'title': title,
       'description': description,
@@ -61,7 +61,7 @@ class Note extends Equatable {
 
   factory Note.fromMap(Map<String, dynamic> map) {
     return Note(
-      id: (map['id'] ?? '') as String,
+      id: (map['_id'] ?? '') as String,
       userId: (map['userId'] ?? '') as String,
       title: (map['title'] ?? '') as String,
       description: (map['description'] ?? '') as String,

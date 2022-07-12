@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-
-import '../config/domain.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TestServer {
   static final TestServer _singleton = TestServer._internal();
@@ -9,7 +8,7 @@ class TestServer {
 
   TestServer._internal();
 
-  final String serverUrl = AppDomain.apiUrl;
+  final String serverUrl = dotenv.get('SERVER_API_URL');
 
   Future<Response> testServer() async {
     final Dio dio = Dio();

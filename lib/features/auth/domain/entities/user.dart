@@ -31,7 +31,7 @@ class User extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      '_id': id,
       'name': name,
       'email': email,
       'token': token,
@@ -40,7 +40,7 @@ class User extends Equatable {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: (map['id'] ?? '') as String,
+      id: (map['_id'] ?? '') as String,
       name: (map['name'] ?? '') as String,
       email: (map['email'] ?? '') as String,
       token: (map['token'] ?? '') as String,

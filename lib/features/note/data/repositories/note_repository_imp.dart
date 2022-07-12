@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:to_do_app/core/error/exceptions.dart';
 import '../../../../core/platform/network_status.dart';
 import '../datasources/note_remote_data_source.dart';
 
@@ -16,9 +17,13 @@ class NoteRepositoryImp implements NoteRepository {
   });
 
   @override
-  Future<Either<Failure, List<Note>>> addNote(Note note) async {
+  Future<Either<Failure, void>> addNote(Note note, String userId) async {
     if (!await networkStatus.isConnected) return Left(UserFailure());
-    return Right(await noteRemoteDataSource.addNote(note));
+    try {
+      return Right(await noteRemoteDataSource.addNote(note, userId));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 
   @override
@@ -30,6 +35,30 @@ class NoteRepositoryImp implements NoteRepository {
   @override
   Future<Either<Failure, List<Note>>> getNotesByUserId(String userId) async {
     if (!await networkStatus.isConnected) return Left(UserFailure());
-    return Right(await noteRemoteDataSource.getNotesByUserId(userId));
+    try {
+      return Right(await noteRemoteDataSource.getNotesByUserId(userId));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateNote(Note note) async {
+    if (!await networkStatus.isConnected) return Left(UserFailure());
+    try {
+      return Right(await noteRemoteDataSource.updateNote(note));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteNote(String noteId) async {
+    if (!await networkStatus.isConnected) return Left(UserFailure());
+    try {
+      return Right(await noteRemoteDataSource.deleteNote(noteId));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 }
