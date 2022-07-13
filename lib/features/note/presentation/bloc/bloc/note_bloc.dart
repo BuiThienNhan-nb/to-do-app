@@ -29,13 +29,13 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   void _getAllNote(GetAllNote event, Emitter<NoteState> emit) {}
 
   FutureOr<void> _getNoteByUserID(
-      GetNoteByUserID event, Emitter<NoteState> emit) async* {
+      GetNoteByUserID event, Emitter<NoteState> emit) async {
     emit(NoteState.loading());
     final notesOrFailure = await noteUseCase
         .getNoteByUserIdUseCase(GetNoteParams(userId: event.userId));
-    yield notesOrFailure.fold(
+    notesOrFailure.fold(
       (failure) => emit(NoteState.error(
-          failure is ServerFailure ? 'Server Failure' : 'Unexpected Error')),
+          failure is ServerFailure ? failure.message : 'Unexpected Error')),
       (notes) => emit(NoteState.loaded(notes)),
     );
   }
@@ -44,7 +44,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     emit(NoteState.loading());
     final addOrFailure = await noteUseCase
         .addNoteUseCase(AddNoteParams(note: event.note, userId: event.userId));
-    yield addOrFailure.fold(
+    addOrFailure.fold(
       (failure) => emit(NoteState.error(
           failure is ServerFailure ? 'Server Failure' : 'Unexpected Error')),
       (_) => emit(
@@ -57,7 +57,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     emit(NoteState.loading());
     final updateOrFailure =
         await noteUseCase.updateNoteUseCase(UpdateNoteParams(event.note));
-    yield updateOrFailure.fold(
+    updateOrFailure.fold(
       (failure) => emit(NoteState.error(
           failure is ServerFailure ? 'Server Failure' : 'Unexpected Error')),
       (_) {
@@ -72,7 +72,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     emit(NoteState.loading());
     final updateOrFailure =
         await noteUseCase.deleteNoteUseCase(DeleteNoteParams(event.noteId));
-    yield updateOrFailure.fold(
+    updateOrFailure.fold(
       (failure) => emit(NoteState.error(
           failure is ServerFailure ? 'Server Failure' : 'Unexpected Error')),
       (_) => emit(

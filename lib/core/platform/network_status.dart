@@ -5,7 +5,7 @@ abstract class NetworkStatus {
 }
 
 class NetworkStatusImp implements NetworkStatus {
-  final Connectivity connectivity;
+  Connectivity connectivity;
 
   NetworkStatusImp(this.connectivity);
 

@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:to_do_app/config/end_point/note_end_point.dart';
 
+import '../../../../config/end_point/note_end_point.dart';
+import '../../../../core/app/value.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../domain/entities/note.dart';
 
@@ -13,18 +16,21 @@ abstract class NoteRemoteDataSource {
   Future<void> deleteNote(String noteId);
 }
 
+const String SERVER_URL_EXCEPTION = "Server Url is required";
+
 class NoteRemoteDataSourceImp implements NoteRemoteDataSource {
-  final Dio dio;
-  final String? accessToken;
-  NoteRemoteDataSourceImp({required this.dio, this.accessToken});
+  final Dio dio = Dio();
+
+  NoteRemoteDataSourceImp() {
+    dio.options.headers['Authorization'] = 'JWT ${AppValue.accessToken}';
+  }
 
   final String serverUrl = dotenv.env['SERVER_API_URL'] ?? '';
 
   @override
   Future<void> addNote(Note note, String userId) async {
-    if (serverUrl.isEmpty) throw ServerException('server url is required');
+    if (serverUrl.isEmpty) throw ServerException(SERVER_URL_EXCEPTION);
 
-    dio.options.headers['Authorization'] = 'JWT $accessToken';
     final requestData = {
       "userId": userId,
       "title": note.title,
@@ -36,7 +42,7 @@ class NoteRemoteDataSourceImp implements NoteRemoteDataSource {
     };
     await dio.post(serverUrl + NoteEndPoints.addNote, data: requestData).then(
       (value) {
-        if (value.data['success'] == 'false') {
+        if (value.data['success'] == false) {
           throw ServerException(value.data['message']);
         }
       },
@@ -50,13 +56,13 @@ class NoteRemoteDataSourceImp implements NoteRemoteDataSource {
 
   @override
   Future<List<Note>> getNotesByUserId(String userId) async {
-    if (serverUrl.isEmpty) throw ServerException('server url is required');
+    if (serverUrl.isEmpty) throw ServerException(SERVER_URL_EXCEPTION);
 
-    dio.options.headers['Authorization'] = 'JWT $accessToken';
+    log(serverUrl + NoteEndPoints.getNotesByUserId(userId));
     final Response response =
         await dio.get(serverUrl + NoteEndPoints.getNotesByUserId(userId)).then(
       (value) {
-        if (value.data['success'] == 'false') {
+        if (value.data['success'] == false) {
           throw ServerException(value.data['message']);
         }
         return value;
@@ -69,9 +75,8 @@ class NoteRemoteDataSourceImp implements NoteRemoteDataSource {
 
   @override
   Future<void> updateNote(Note note) async {
-    if (serverUrl.isEmpty) throw ServerException('server url is required');
+    if (serverUrl.isEmpty) throw ServerException(SERVER_URL_EXCEPTION);
 
-    dio.options.headers['Authorization'] = 'JWT $accessToken';
     final requestData = {
       "title": note.title,
       "description": note.description,
@@ -84,7 +89,7 @@ class NoteRemoteDataSourceImp implements NoteRemoteDataSource {
         .post(serverUrl + NoteEndPoints.updateNote(note.id), data: requestData)
         .then(
       (value) {
-        if (value.data['success'] == 'false') {
+        if (value.data['success'] == false) {
           throw ServerException(value.data['message']);
         }
       },
@@ -93,11 +98,11 @@ class NoteRemoteDataSourceImp implements NoteRemoteDataSource {
 
   @override
   Future<void> deleteNote(String noteId) async {
-    if (serverUrl.isEmpty) throw ServerException('server url is required');
-    dio.options.headers['Authorization'] = 'JWT $accessToken';
+    if (serverUrl.isEmpty) throw ServerException(SERVER_URL_EXCEPTION);
+
     await dio.delete(serverUrl + NoteEndPoints.deleteNote(noteId)).then(
       (value) {
-        if (value.data['success'] == 'false') {
+        if (value.data['success'] == false) {
           throw ServerException(value.data['message']);
         }
       },

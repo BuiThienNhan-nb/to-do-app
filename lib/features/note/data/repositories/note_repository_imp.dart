@@ -21,8 +21,8 @@ class NoteRepositoryImp implements NoteRepository {
     if (!await networkStatus.isConnected) return Left(UserFailure());
     try {
       return Right(await noteRemoteDataSource.addNote(note, userId));
-    } on ServerException {
-      return Left(ServerFailure());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     }
   }
 
@@ -37,8 +37,8 @@ class NoteRepositoryImp implements NoteRepository {
     if (!await networkStatus.isConnected) return Left(UserFailure());
     try {
       return Right(await noteRemoteDataSource.getNotesByUserId(userId));
-    } on ServerException {
-      return Left(ServerFailure());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     }
   }
 
@@ -47,8 +47,8 @@ class NoteRepositoryImp implements NoteRepository {
     if (!await networkStatus.isConnected) return Left(UserFailure());
     try {
       return Right(await noteRemoteDataSource.updateNote(note));
-    } on ServerException {
-      return Left(ServerFailure());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     }
   }
 
@@ -57,8 +57,8 @@ class NoteRepositoryImp implements NoteRepository {
     if (!await networkStatus.isConnected) return Left(UserFailure());
     try {
       return Right(await noteRemoteDataSource.deleteNote(noteId));
-    } on ServerException {
-      return Left(ServerFailure());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     }
   }
 }

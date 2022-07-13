@@ -1,9 +1,9 @@
-import 'package:to_do_app/features/note/data/datasources/note_remote_data_source.dart';
-import 'package:to_do_app/features/note/data/repositories/note_repository_imp.dart';
-import 'package:to_do_app/features/note/domain/repositories/note_repositories.dart';
-import 'package:to_do_app/features/note/domain/usecases/note_use_case.dart';
-
 import '../../../../../core/injection/injection_container.dart';
+import '../../../data/datasources/note_remote_data_source.dart';
+import '../../../data/repositories/note_repository_imp.dart';
+import '../../../presentation/bloc/bloc/note_bloc.dart';
+import '../../repositories/note_repositories.dart';
+import '../note_use_case.dart';
 
 class NoteInjectionContainer extends InjectionContainer {
   NoteInjectionContainer._internal();
@@ -13,6 +13,8 @@ class NoteInjectionContainer extends InjectionContainer {
 
   @override
   Future<void> init() async {
+    getIt.registerFactory<NoteBloc>(() => NoteBloc(getIt()));
+
     getIt.registerLazySingleton<NoteUseCase>(
       () => NoteUseCase(getIt()),
     );
@@ -25,7 +27,7 @@ class NoteInjectionContainer extends InjectionContainer {
     );
 
     getIt.registerLazySingleton<NoteRemoteDataSource>(
-      () => NoteRemoteDataSourceImp(dio: getIt()),
+      () => NoteRemoteDataSourceImp(),
     );
   }
 }
