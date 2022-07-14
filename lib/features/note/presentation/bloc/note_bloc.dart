@@ -1,16 +1,17 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/bloc/status.dart';
 import '../../../../../core/error/failures.dart';
-import '../../../domain/entities/note.dart';
-import '../../../domain/usecases/note_use_case.dart';
-import '../../../domain/usecases/note_use_case/add_note.dart';
-import '../../../domain/usecases/note_use_case/delete_note.dart';
-import '../../../domain/usecases/note_use_case/get_note_by_user_id.dart';
-import '../../../domain/usecases/note_use_case/update_note.dart';
+import '../../domain/entities/note.dart';
+import '../../domain/usecases/note_use_case.dart';
+import '../../domain/usecases/note_use_case/add_note.dart';
+import '../../domain/usecases/note_use_case/delete_note.dart';
+import '../../domain/usecases/note_use_case/get_note_by_user_id.dart';
+import '../../domain/usecases/note_use_case/update_note.dart';
 
 part 'note_event.dart';
 part 'note_state.dart';
@@ -36,7 +37,10 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     notesOrFailure.fold(
       (failure) => emit(NoteState.error(
           failure is ServerFailure ? failure.message : 'Unexpected Error')),
-      (notes) => emit(NoteState.loaded(notes)),
+      (notes) {
+        log(notes.toString());
+        emit(NoteState.loaded(notes));
+      },
     );
   }
 

@@ -1,7 +1,7 @@
 import '../../../../../core/injection/injection_container.dart';
 import '../../../data/datasources/note_remote_data_source.dart';
 import '../../../data/repositories/note_repository_imp.dart';
-import '../../../presentation/bloc/bloc/note_bloc.dart';
+import '../../../presentation/bloc/note_bloc.dart';
 import '../../repositories/note_repositories.dart';
 import '../note_use_case.dart';
 

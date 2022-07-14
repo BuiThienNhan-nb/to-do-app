@@ -12,12 +12,6 @@ import 'app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await Future.wait([
-  //   _initServices(),
-  //   _testServer(),
-  //   _initDependency(),
-  // ]);
-
   await _initServices();
   await _testServer();
   await _initDependency();
