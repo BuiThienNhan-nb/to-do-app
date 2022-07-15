@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:to_do_app/features/note/presentation/pages/note_detail_page.dart';
 
 import '../features/home/presentation/pages/home_page.dart';
+import '../features/note/domain/entities/note.dart';
 import '../features/note/presentation/pages/note_page.dart';
 import '../utils/test/bloc/bloc/counter_bloc.dart';
 import '../utils/test/page/counter_test_page.dart';
@@ -19,6 +21,7 @@ class AppRoutes {
   // Route name
   static const String home = "/home";
   static const String note = "/note";
+  static const String noteDetail = "/note-detail";
   static const String test = "/test";
 
   // initial Route
@@ -40,6 +43,11 @@ class AppRoutes {
             create: (context) => CounterBloc(),
             child: const CounterTestPage(),
           ),
+        );
+      case AppRoutes.noteDetail:
+        final argument = settings.arguments as Note;
+        return CupertinoPageRoute(
+          builder: (_) => NoteDetailPage(note: argument),
         );
       default:
         return _errorRoute();

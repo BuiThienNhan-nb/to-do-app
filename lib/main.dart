@@ -21,7 +21,6 @@ Future<void> main() async {
 
 Future<void> _testServer() async {
   await TestServer().testServer().then((value) {
-    log(value.toString());
     log('get response from server successful');
   });
 }
@@ -29,8 +28,6 @@ Future<void> _testServer() async {
 Future<void> _initServices() async {
   await dotenv.load(fileName: ".env");
   final SharedPreferences preferences = await SharedPreferences.getInstance();
-  // await preferences.setString('token',
-  //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmIyOTY3MGE0NDQ4ZjQ1MWM0ZWMzZDciLCJpYXQiOjE2NTU4NzEwODh9.KnxT2B3LOip45PGZZyvomNi7wVYv_ROGPKix0gRPnJQ');
   AppValue.accessToken = preferences.getString('token') ?? "";
   log(AppValue.accessToken);
 }

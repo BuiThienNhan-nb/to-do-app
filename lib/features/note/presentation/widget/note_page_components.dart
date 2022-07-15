@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/colors.dart';
+import '../../../../config/dimens.dart';
 import '../../../../config/styles.dart';
 
 Container notePageTitle(String title, String subTtile) => Container(
@@ -35,4 +36,42 @@ Container notePageTitle(String title, String subTtile) => Container(
           ),
         ),
       ),
+    );
+
+InputDecoration noteInputDecoration(String label) => InputDecoration(
+      label: Text(label),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppDimens.itemRadius),
+        borderSide: BorderSide(
+          color: AppColors.eastBayColor,
+          width: 1.2.w,
+          style: BorderStyle.solid,
+        ),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppDimens.itemRadius),
+        borderSide: BorderSide(
+          color: AppColors.eastBayColor,
+          width: 1.2.w,
+          style: BorderStyle.solid,
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppDimens.itemRadius),
+        borderSide: BorderSide(
+          color: AppColors.eastBayColor,
+          width: 1.2.w,
+          style: BorderStyle.solid,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppDimens.itemRadius),
+        borderSide: BorderSide(
+          color: AppColors.eastBayColor,
+          width: 1.2.w,
+          style: BorderStyle.solid,
+        ),
+      ),
+      filled: true,
+      fillColor: AppColors.aliceBlueColor,
     );

@@ -5,6 +5,8 @@ class AppValue {
 
   static String accessToken = "";
 
+  static bool isLogin = false;
+
   static User currentUser = User(
     id: "62b29670a4448f451c4ec3d7",
     name: "Bùi Thiện Nhân",

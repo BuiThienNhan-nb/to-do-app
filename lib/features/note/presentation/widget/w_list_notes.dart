@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:to_do_app/config/colors.dart';
 import 'package:to_do_app/config/dimens.dart';
+import 'package:to_do_app/config/routes.dart';
 import 'package:to_do_app/features/note/domain/entities/note.dart';
 
 class ListNotesWidget extends StatelessWidget {
@@ -16,22 +15,21 @@ class ListNotesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.fromLTRB(16.w, 0.h, 16.w, 20.h),
-      child: ListView.builder(
-        primary: false,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: notes.length,
-        itemBuilder: (context, index) => noteItem(notes[index]),
-      ),
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      itemCount: notes.length,
+      itemBuilder: (context, index) => noteItem(notes[index], context),
     );
   }
 }
 
-GestureDetector noteItem(Note note) => GestureDetector(
+GestureDetector noteItem(Note note, BuildContext context) => GestureDetector(
       onTap: () {
-        log("on Note Item ${note.id} tap");
+        Navigator.of(context, rootNavigator: true)
+            .pushNamed(AppRoutes.noteDetail, arguments: note);
       },
       child: Padding(
         padding: EdgeInsets.only(bottom: 20.h),

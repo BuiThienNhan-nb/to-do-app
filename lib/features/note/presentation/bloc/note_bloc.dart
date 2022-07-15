@@ -44,43 +44,55 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     );
   }
 
-  FutureOr<void> _addNote(AddNote event, Emitter<NoteState> emit) async* {
+  FutureOr<void> _addNote(AddNote event, Emitter<NoteState> emit) async {
+    final List<Note> currentList = state.notes;
+
     emit(NoteState.loading());
+
     final addOrFailure = await noteUseCase
         .addNoteUseCase(AddNoteParams(note: event.note, userId: event.userId));
+
     addOrFailure.fold(
       (failure) => emit(NoteState.error(
-          failure is ServerFailure ? 'Server Failure' : 'Unexpected Error')),
+          failure is ServerFailure ? failure.message : 'Unexpected Error')),
       (_) => emit(
-        NoteState.loaded(List.from(state.notes)..add(event.note)),
+        NoteState.loaded(List.from(currentList)..add(event.note)),
       ),
     );
   }
 
-  FutureOr<void> _updateNote(UpdateNote event, Emitter<NoteState> emit) async* {
+  FutureOr<void> _updateNote(UpdateNote event, Emitter<NoteState> emit) async {
+    final List<Note> currentList = state.notes;
+
     emit(NoteState.loading());
+
     final updateOrFailure =
         await noteUseCase.updateNoteUseCase(UpdateNoteParams(event.note));
+
     updateOrFailure.fold(
       (failure) => emit(NoteState.error(
-          failure is ServerFailure ? 'Server Failure' : 'Unexpected Error')),
+          failure is ServerFailure ? failure.message : 'Unexpected Error')),
       (_) {
-        state.notes[state.notes
+        currentList[currentList
             .indexWhere((note) => note.id == event.note.id)] = event.note;
-        emit(NoteState.loaded(state.notes));
+        emit(NoteState.loaded(currentList));
       },
     );
   }
 
-  FutureOr<void> _deleteNote(DeleteNote event, Emitter<NoteState> emit) async* {
+  FutureOr<void> _deleteNote(DeleteNote event, Emitter<NoteState> emit) async {
+    final List<Note> currentList = state.notes;
+
     emit(NoteState.loading());
+
     final updateOrFailure =
         await noteUseCase.deleteNoteUseCase(DeleteNoteParams(event.noteId));
+
     updateOrFailure.fold(
       (failure) => emit(NoteState.error(
-          failure is ServerFailure ? 'Server Failure' : 'Unexpected Error')),
+          failure is ServerFailure ? failure.message : 'Unexpected Error')),
       (_) => emit(
-        NoteState.loaded(List.from(state.notes)
+        NoteState.loaded(List.from(currentList)
           ..removeWhere((note) => note.id == event.noteId)),
       ),
     );

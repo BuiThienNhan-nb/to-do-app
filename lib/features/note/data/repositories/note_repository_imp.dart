@@ -21,8 +21,9 @@ class NoteRepositoryImp implements NoteRepository {
     if (!await networkStatus.isConnected) return Left(UserFailure());
     try {
       return Right(await noteRemoteDataSource.addNote(note, userId));
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+    } on Exception catch (e) {
+      return Left(
+          ServerFailure(e is ServerException ? e.message : "Unexpected error"));
     }
   }
 
@@ -37,8 +38,9 @@ class NoteRepositoryImp implements NoteRepository {
     if (!await networkStatus.isConnected) return Left(UserFailure());
     try {
       return Right(await noteRemoteDataSource.getNotesByUserId(userId));
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+    } on Exception catch (e) {
+      return Left(
+          ServerFailure(e is ServerException ? e.message : "Unexpected error"));
     }
   }
 
@@ -47,8 +49,9 @@ class NoteRepositoryImp implements NoteRepository {
     if (!await networkStatus.isConnected) return Left(UserFailure());
     try {
       return Right(await noteRemoteDataSource.updateNote(note));
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+    } on Exception catch (e) {
+      return Left(
+          ServerFailure(e is ServerException ? e.message : "Unexpected error"));
     }
   }
 
@@ -57,8 +60,9 @@ class NoteRepositoryImp implements NoteRepository {
     if (!await networkStatus.isConnected) return Left(UserFailure());
     try {
       return Right(await noteRemoteDataSource.deleteNote(noteId));
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+    } on Exception catch (e) {
+      return Left(
+          ServerFailure(e is ServerException ? e.message : "Unexpected error"));
     }
   }
 }

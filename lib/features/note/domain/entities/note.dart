@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+const List<String> notePriority = ["Must Do", "Should Do", "Low Priority"];
+
 // ignore: must_be_immutable
 class Note extends Equatable {
   final String id;

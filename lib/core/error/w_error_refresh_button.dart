@@ -13,21 +13,19 @@ class ErrorRefreshButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(
-        child: TextButton(
-          onPressed: callback ?? () {},
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(AppColors.endeavourColor),
-            foregroundColor:
-                MaterialStateProperty.all<Color>(AppColors.aliceBlueColor),
-            overlayColor: MaterialStateProperty.all<Color>(AppColors.shipCove),
-          ),
-          child: Text(
-            "$message!\nClick to refresh page!",
-            textAlign: TextAlign.center,
-          ),
+    return Center(
+      child: TextButton(
+        onPressed: callback ?? () {},
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(AppColors.endeavourColor),
+          foregroundColor:
+              MaterialStateProperty.all<Color>(AppColors.aliceBlueColor),
+          overlayColor: MaterialStateProperty.all<Color>(AppColors.shipCove),
+        ),
+        child: Text(
+          "$message!\nClick to refresh page!",
+          textAlign: TextAlign.center,
         ),
       ),
     );
