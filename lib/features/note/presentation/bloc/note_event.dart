@@ -20,12 +20,11 @@ class GetNoteByUserID extends NoteEvent {
 
 class AddNote extends NoteEvent {
   final Note note;
-  final String userId;
 
-  const AddNote(this.note, this.userId);
+  const AddNote(this.note);
 
   @override
-  List<Object?> get props => [note, userId];
+  List<Object?> get props => [note];
 }
 
 class UpdateNote extends NoteEvent {

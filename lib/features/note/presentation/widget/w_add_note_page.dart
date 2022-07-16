@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:to_do_app/core/app/value.dart';
 
 import '../../../../config/colors.dart';
 import '../../../../config/dimens.dart';
@@ -16,18 +17,26 @@ import '../widget/w_note_home_background_container.dart';
 import '../widget/w_note_submit_button.dart';
 import '../widget/w_note_text_form_field.dart';
 
-class NoteDetailPage extends StatelessWidget {
-  final Note note;
+class AddNotePage extends StatelessWidget {
+  // final Note note;
 
-  const NoteDetailPage({
+  final Note currentNote = Note(
+    id: "",
+    userId: AppValue.currentUser.id,
+    title: "",
+    description: "",
+    priority: notePriority.last,
+    hasDone: false,
+  );
+
+  AddNotePage({
     Key? key,
-    required this.note,
+    // required this.note,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final key = GlobalKey<FormState>();
-    final currentNote = note.copyWith();
 
     final TextEditingController txtTitleController =
         TextEditingController(text: currentNote.title);
@@ -60,18 +69,8 @@ class NoteDetailPage extends StatelessWidget {
       txtDeadlineController.text = AppFormat.formatDay.format(pickDate);
     }
 
-    void update() {
-      BlocProvider.of<NoteBloc>(context).add(
-        UpdateNote(currentNote),
-      );
-      // showSnackBar(context, "title", "actionText");
-    }
-
-    void delete() {
-      BlocProvider.of<NoteBloc>(context).add(
-        DeleteNote(currentNote.id),
-      );
-      Navigator.of(context).pop();
+    void add() {
+      BlocProvider.of<NoteBloc>(context).add(AddNote(currentNote));
     }
 
     return Scaffold(
@@ -154,22 +153,9 @@ class NoteDetailPage extends StatelessWidget {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (state.status == BlocStatus.loaded) {
-                        return Row(
-                          children: [
-                            Flexible(
-                              child: NoteActionButton(
-                                title: "Delete",
-                                backgroundColor: AppColors.flamingoColor,
-                                submit: delete,
-                              ),
-                            ),
-                            SizedBox(width: 16.w),
-                            Flexible(
-                              child: NoteActionButton(
-                                submit: update,
-                              ),
-                            ),
-                          ],
+                        return NoteActionButton(
+                          title: "Add Note",
+                          submit: add,
                         );
                       }
                       return ErrorRefreshButton(

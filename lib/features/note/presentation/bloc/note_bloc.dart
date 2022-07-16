@@ -49,14 +49,14 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
     emit(NoteState.loading());
 
-    final addOrFailure = await noteUseCase
-        .addNoteUseCase(AddNoteParams(note: event.note, userId: event.userId));
+    final addOrFailure =
+        await noteUseCase.addNoteUseCase(AddNoteParams(note: event.note));
 
     addOrFailure.fold(
       (failure) => emit(NoteState.error(
           failure is ServerFailure ? failure.message : 'Unexpected Error')),
-      (_) => emit(
-        NoteState.loaded(List.from(currentList)..add(event.note)),
+      (note) => emit(
+        NoteState.loaded(List.from(currentList)..add(note)),
       ),
     );
   }

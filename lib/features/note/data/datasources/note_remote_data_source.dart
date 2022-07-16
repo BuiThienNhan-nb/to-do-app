@@ -9,7 +9,7 @@ import '../../domain/entities/note.dart';
 abstract class NoteRemoteDataSource {
   Future<List<Note>> getAllNotes();
   Future<List<Note>> getNotesByUserId(String userId);
-  Future<void> addNote(Note note, String userId);
+  Future<Note> addNote(Note note);
   Future<void> updateNote(Note note);
   Future<void> deleteNote(String noteId);
 }
@@ -26,19 +26,25 @@ class NoteRemoteDataSourceImp implements NoteRemoteDataSource {
   final String serverUrl = dotenv.env['SERVER_API_URL'] ?? '';
 
   @override
-  Future<void> addNote(Note note, String userId) async {
+  Future<Note> addNote(Note note) async {
     if (serverUrl.isEmpty) throw ServerException(SERVER_URL_EXCEPTION);
 
     final requestData = note.toJson();
 
     try {
-      await dio.post(serverUrl + NoteEndPoints.addNote, data: requestData).then(
+      final Response response = await dio
+          .post(serverUrl + NoteEndPoints.addNote, data: requestData)
+          .then(
         (value) {
           if (value.data['success'] == false) {
             throw ServerException(value.data['message']);
           }
+          return value;
         },
       );
+      final Map<String, dynamic> result = response.data['note'];
+
+      return Note.fromMap(result);
     } on Exception catch (e) {
       throw ServerException(e.toString());
     }

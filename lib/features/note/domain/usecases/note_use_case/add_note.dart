@@ -6,22 +6,21 @@ import '../../../../../core/error/failures.dart';
 import '../../entities/note.dart';
 import '../../repositories/note_repositories.dart';
 
-class AddNoteUseCase implements UseCase<void, AddNoteParams> {
+class AddNoteUseCase implements UseCase<Note, AddNoteParams> {
   final NoteRepository _repository;
 
   AddNoteUseCase(this._repository);
 
   @override
-  Future<Either<Failure, void>> call(AddNoteParams p) async =>
-      await _repository.addNote(p.note, p.userId);
+  Future<Either<Failure, Note>> call(AddNoteParams p) async =>
+      await _repository.addNote(p.note);
 }
 
 class AddNoteParams extends Equatable {
   final Note note;
-  final String userId;
 
-  const AddNoteParams({required this.note, required this.userId});
+  const AddNoteParams({required this.note});
 
   @override
-  List<Object?> get props => [note, userId];
+  List<Object?> get props => [note];
 }

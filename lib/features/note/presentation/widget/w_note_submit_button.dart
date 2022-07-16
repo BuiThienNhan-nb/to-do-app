@@ -4,17 +4,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../config/colors.dart';
 import '../../../../config/dimens.dart';
 
-class NoteSubmitButton extends StatelessWidget {
+class NoteActionButton extends StatelessWidget {
   double height = 60.h;
   double width = double.infinity;
+  String title = "Submit";
+  Color backgroundColor = AppColors.endeavourColor;
   final Function() submit;
 
-  NoteSubmitButton(
-      {Key? key,
-      required this.submit,
-      this.height = 60,
-      this.width = double.infinity})
-      : super(key: key);
+  NoteActionButton({
+    Key? key,
+    required this.submit,
+    this.title = "Submit",
+    this.backgroundColor = AppColors.endeavourColor,
+    this.height = 60,
+    this.width = double.infinity,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +27,15 @@ class NoteSubmitButton extends StatelessWidget {
       width: width,
       child: TextButton(
         onPressed: submit,
-        child: const Text("Submit"),
-        style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(AppColors.endeavourColor),
-          foregroundColor:
-              MaterialStateProperty.all<Color>(AppColors.whiteColor),
-          overlayColor: MaterialStateProperty.all<Color>(AppColors.shipCove),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppDimens.itemRadius),
-            ),
+        child: Text(title),
+        style: TextButton.styleFrom(
+          backgroundColor: backgroundColor,
+          primary: AppColors.whiteColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppDimens.itemRadius),
           ),
+          shadowColor: AppColors.blackColor,
+          elevation: 4.w,
         ),
       ),
     );

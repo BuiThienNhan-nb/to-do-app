@@ -24,4 +24,6 @@ class AppColors {
   static const Color eastBayColor = Color(0xff485470);
 
   static const Color boneColor = Color(0xffE3C4A8);
+
+  static const Color flamingoColor = Color(0xffE96152);
 }

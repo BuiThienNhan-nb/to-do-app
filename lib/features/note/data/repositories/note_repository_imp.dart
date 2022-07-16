@@ -17,10 +17,10 @@ class NoteRepositoryImp implements NoteRepository {
   });
 
   @override
-  Future<Either<Failure, void>> addNote(Note note, String userId) async {
+  Future<Either<Failure, Note>> addNote(Note note) async {
     if (!await networkStatus.isConnected) return Left(UserFailure());
     try {
-      return Right(await noteRemoteDataSource.addNote(note, userId));
+      return Right(await noteRemoteDataSource.addNote(note));
     } on Exception catch (e) {
       return Left(
           ServerFailure(e is ServerException ? e.message : "Unexpected error"));

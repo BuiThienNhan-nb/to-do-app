@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:to_do_app/config/colors.dart';
+import 'package:to_do_app/features/note/presentation/widget/w_note_floating_btn.dart';
 
 import '../../../../core/app/value.dart';
 import '../../../../core/bloc/status.dart';
@@ -16,6 +18,8 @@ class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: const NoteFloatingButton(),
       body: noteHomeBackgroundContainer(
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
