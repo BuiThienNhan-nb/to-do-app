@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/colors.dart';
+import '../../../../config/routes.dart';
 
 class NoteFloatingButton extends StatelessWidget {
   const NoteFloatingButton({Key? key}) : super(key: key);
@@ -22,7 +23,8 @@ class NoteFloatingButton extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: IconButton(
-        onPressed: () {},
+        onPressed: () => Navigator.of(context, rootNavigator: true)
+            .pushNamed(AppRoutes.addNote),
         icon: const Icon(Icons.add),
         color: AppColors.whiteColor,
       ),

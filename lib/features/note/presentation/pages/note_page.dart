@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:to_do_app/config/colors.dart';
 import 'package:to_do_app/features/note/presentation/widget/w_note_floating_btn.dart';
 
 import '../../../../core/app/value.dart';

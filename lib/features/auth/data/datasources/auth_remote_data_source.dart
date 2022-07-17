@@ -31,20 +31,31 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
       "password": password,
     };
 
-    final Response response = await dio
-        .post(serverUrl + AuthEndPoints.signIn, data: requestData)
-        .then(
-      (value) {
-        if (value.data['success'] == false) {
-          throw ServerException(value.data['message']);
-        }
-        return value;
-      },
-    );
+    try {
+      final Response response = await dio
+          .post(serverUrl + AuthEndPoints.signIn, data: requestData)
+          .then(
+        (value) {
+          if (value.data['success'] == false) {
+            throw ServerException(value.data['message']);
+          }
+          return value;
+        },
+      );
+      AppValue.accessToken = "";
 
-    final result = response.data['user'];
+      final result = response.data['user'];
+      final User user = User.fromMap(result);
 
-    return User.fromMap(result);
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      await preferences.setString('token', user.token);
+      AppValue.accessToken = user.token;
+
+      return user;
+    } on Exception catch (e) {
+      throw ServerException(e is ServerException ? e.message : e.toString());
+    }
   }
 
   @override
@@ -88,7 +99,12 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     );
 
     final result = response.data['user'];
+    final User user = User.fromMap(result);
 
-    return User.fromMap(result);
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('token', user.token);
+    AppValue.accessToken = user.token;
+
+    return user;
   }
 }

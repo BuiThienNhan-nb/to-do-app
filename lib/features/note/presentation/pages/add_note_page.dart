@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:to_do_app/core/app/value.dart';
 
 import '../../../../config/colors.dart';
 import '../../../../config/dimens.dart';
 import '../../../../config/formats.dart';
 import '../../../../config/styles.dart';
+import '../../../../core/app/value.dart';
 import '../../../../core/bloc/status.dart';
 import '../../../../core/error/w_error_refresh_button.dart';
 import '../../domain/entities/note.dart';

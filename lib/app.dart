@@ -7,6 +7,7 @@ import 'config/dimens.dart';
 import 'config/routes.dart';
 import 'config/themes.dart';
 import 'core/app/value.dart';
+import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/note/presentation/bloc/note_bloc.dart';
 
 class ToDoApp extends StatelessWidget {
@@ -20,7 +21,12 @@ class ToDoApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => GetIt.I<NoteBloc>()
-              ..add(GetNoteByUserID(userId: AppValue.currentUser.id)),
+              ..add(
+                GetNoteByUserID(userId: AppValue.currentUser.id),
+              ),
+          ),
+          BlocProvider(
+            create: (context) => GetIt.I<AuthBloc>(),
           ),
         ],
         child: MaterialApp(

@@ -6,7 +6,7 @@ import '../../../../../core/usecases/usecase_core.dart';
 import '../../entities/user.dart';
 import '../../repositories/auth_repository.dart';
 
-class SignInUseCase implements UseCase<void, SignInParams> {
+class SignInUseCase implements UseCase<User, SignInParams> {
   final AuthRepository _repository;
 
   SignInUseCase(this._repository);

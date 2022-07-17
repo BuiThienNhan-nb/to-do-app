@@ -31,16 +31,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         .signInUseCase(SignInParams(event.email, event.password));
 
     signInOrFailure.fold(
-      (failure) => emit(AuthState.error(
-          failure is ServerFailure ? failure.message : 'Unexpected Error')),
-      (user) {
-        emit(AuthState.loaded(user));
-        AppValue.currentUser.copyWith(
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          token: user.token,
+      (failure) {
+        emit(
+          AuthState.error(
+              failure is ServerFailure ? failure.message : 'Unexpected Error'),
         );
+      },
+      (user) {
+        // AppValue.currentUser.copyWith(
+        //   id: user.id,
+        //   name: user.name,
+        //   email: user.email,
+        //   token: user.token,
+        // );
+
+        emit(AuthState.loaded(user));
       },
     );
   }
@@ -56,12 +61,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           failure is ServerFailure ? failure.message : 'Unexpected Error')),
       (user) {
         emit(AuthState.loaded(user));
-        AppValue.currentUser.copyWith(
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          token: user.token,
-        );
+        // AppValue.currentUser.copyWith(
+        //   id: user.id,
+        //   name: user.name,
+        //   email: user.email,
+        //   token: user.token,
+        // );
       },
     );
   }
@@ -81,10 +86,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
       await preferences.setString('token', "");
+
+      emit(AuthState.loaded(AppValue.currentUser));
+      state.status = BlocStatus.initial;
     } on Exception catch (e) {
       emit(AuthState.error(e.toString()));
     }
-
-    emit(AuthState.loaded(AppValue.currentUser));
   }
 }
