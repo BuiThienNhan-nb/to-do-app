@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:to_do_app/config/dimens.dart';
 import 'package:to_do_app/config/styles.dart';
+import 'package:to_do_app/features/home/presentation/pages/profile_page.dart';
 
 import '../../../../config/colors.dart';
 import '../../../../config/routes.dart';
@@ -16,11 +17,8 @@ class HomePage extends StatelessWidget {
     /// Navigation List Widgets
     final List<Widget> _screens = [
       const NotePage(),
-      Scaffold(
-        body: Container(
-          color: AppColors.whiteColor,
-        ),
-      ),
+      const ProfilePage(),
+      // const SignOutPage(),
     ];
 
     /// Navigation Bottom Bar Items
